@@ -16,21 +16,44 @@ public class Main {
         System.out.println("Hello! what do u want to do");
         Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt();
-        switch (n){
-            case 1:
-                Login.login();
-                System.out.println("What do you want to do next!");
-                break;
-            case 2:
-                Login.sign_up();
-                System.out.println("Welcome to your account!");
-                System.out.println("What do you want to do next!");
-                break;
+        String account_type = "";
+        while(n != 1 && n != 2){
+            n = scanner.nextInt();
+            switch (n){
+                case 1:
+                    account_type = Login.login();
+                    System.out.println("What do you want to do next!");
+                    break;
+                case 2:
+                    account_type = Login.sign_up();
+                    System.out.println("Welcome to your account!");
+                    System.out.println("What do you want to do next!");
+                    break;
+            }
         }
-        while(n != 6){
-            System.out.println("1 - Create a new shopping cart");
-            System.out.println("2 - Search for a specefic product");
-            System.out.println("Hello! what do u want to do");
+
+        int l = 0;
+        if(account_type == "admin"){
+            while(l != 6){
+                System.out.println("1 - add a new product");
+                System.out.println("2 - update a product");
+                System.out.println("3 - delete a product");
+                System.out.println("4 - see a specefic product sales");
+                System.out.println("5 - see all products sales");
+                System.out.println("6 - log out");
+                l = scanner.nextInt();
+                switch (l){
+                    case 1:
+                        Login.login();
+                        System.out.println("What do you want to do next!");
+                        break;
+                    case 2:
+                        Login.sign_up();
+                        System.out.println("Welcome to your account!");
+                        System.out.println("What do you want to do next!");
+                        break;
+                }
+            }
         }
     }
 }

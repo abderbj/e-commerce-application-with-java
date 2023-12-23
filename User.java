@@ -1,5 +1,6 @@
 
 public class User {
+    private String id;
     private String name;
     private int age;
     private String username;
@@ -11,6 +12,12 @@ public class User {
     }
     public int getAge(){
         return age;
+    }
+    public String getId(){
+        return id;
+    }
+    public void setId(String s){
+        id = s;
     }
     public String getPassword(){
         return password;

@@ -36,6 +36,7 @@ public class Users {
             user.setUsername(informations[3]);
             user.setPassword(informations[4]);
             user.setAccount_type(informations[5]);
+            user.setId(informations[6]);
             users.add(user);
         }
     }
@@ -61,7 +62,8 @@ public class Users {
             String username = user.getUsername();
             String password = user.getPassword();
             String account_type = user.getAccount_type();
-            String s = name + " " + age + " " + email + " " + username + " "  + password + " "  + account_type;
+            String id = user.getId();
+            String s = name + " " + age + " " + email + " " + username + " "  + password + " "  + account_type + " " + id;
 
             if (Files.size(Paths.get(filePath)) == 0) {
                 writer.write(s);
