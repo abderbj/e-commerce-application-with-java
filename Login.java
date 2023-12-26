@@ -11,20 +11,20 @@ public class Login {
         }
         return false;
     }
-    public static String check_password(String email, String password){
+    public static User check_password(String email, String password){
         for(User l : Users.getUsers()){
             if(Objects.equals(l.getEmail(), email) && Objects.equals(l.getPassword(), password)){
-                return l.getAccount_type();
+                return l;
             }
             if(Objects.equals(l.getUsername(), email) && Objects.equals(l.getPassword(), password)){
-                return l.getAccount_type();
+                return l;
             }
         }
-        return  "";
+        return null;
     }
 
 
-    public static String sign_up(){
+    public static User sign_up(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("enter your name: ");
         String name = scanner.nextLine();
@@ -79,11 +79,11 @@ public class Login {
         new_user.setAccount_type(type);
         new_user.setId(i);
         Users.addUser(new_user);
-        return type;
+        return new_user;
     }
 
 
-    public static String login(){
+    public static User login(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("enter ur email adress or your username: ");
         String inputString = scanner.nextLine();
@@ -94,7 +94,7 @@ public class Login {
         }
         System.out.println("enter your password: ");
         String password = scanner.nextLine();
-        while(Login.check_password(inputString, password) != ""){
+        while(Login.check_password(inputString, password) == null){
             System.out.println("invalid email or password");
             System.out.println("do you want to change the email(1) or the password(2) write 1 for the email and 2 for the password ");
             int x = scanner.nextInt();
