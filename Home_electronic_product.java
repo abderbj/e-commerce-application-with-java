@@ -19,6 +19,7 @@ public class Home_electronic_product extends Product{
     /*public Home_electronic_product(String product_id, String product_name, int product_stock, String product_brand, String product_color) {
         super(product_id, product_name, product_stock, product_brand, product_color);
     }*/
+
     public static Home_electronic_product find_product_by_id(int ID){
         for(Home_electronic_product l : elctronic_product_list){
             if(l.getId() == ID){
