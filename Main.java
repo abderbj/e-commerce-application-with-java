@@ -11,6 +11,7 @@ public class Main {
         Users.initialise_users();
         Home_electronic_product.initialise_products();
         Clothes.initialise_clothes();
+        Shopping_cart.initialise_shopping_cart();
         System.out.println("Hello! what do u want to do");
         System.out.println("1 - Log in");
         System.out.println("2 - Sign up");
@@ -80,7 +81,7 @@ public class Main {
                             System.out.println("pick the id of the product you want to update");
                             int new_id =scanner.nextInt();
                             Home_electronic_product h = Home_electronic_product.find_product_by_id(new_id);
-                            while(h.getOwner_id() != u.getId()){
+                            while(!Objects.equals(h.getOwner_id(), u.getId())){
                                 System.out.println("you can't update a product that it is not yours");
                                 System.out.println("pick a new id of the product you want to update");
                                 new_id =scanner.nextInt();
@@ -342,6 +343,49 @@ public class Main {
                 }
             }
         }
-    }
-}
+        if(Objects.equals(u.getAccount_type(), "costumer")) {
+            System.out.println("what do you want to do next");
+            System.out.println("1 - create a new shopping card");
+            System.out.println("2- search for a product");
+            System.out.println("3- view recommendations ");
+            System.out.println("4- view your shopping cards");
+            System.out.println("5- log out");
+            l = scanner.nextInt();
+            scanner.nextLine();
+            switch (l){
+                case 1:
+                    int shopping_cart_id = Shopping_cart.create_shopping_cart(u.getId());
+                    System.out.println("1 - add a product to the cart");
+                    System.out.println("2 - delete a product from the cart");
+                    System.out.println("3 - back");
+                    int y = scanner.nextInt();
+                    scanner.nextLine();
+                    while(y != 1 && y != 2){
+                        System.out.println("please write 1 or 2");
+                        y = scanner.nextInt();
+                        scanner.nextLine();
+                    }while(y != 3){
+                    switch (y){
+                        case 1:
+                            Shopping_cart.add_product(shopping_cart_id);
+                            break;
+                        case 2:
+                            Shopping_cart.delete_product(shopping_cart_id);
+                            break;
+                    }
+                    System.out.println("what do you want to do next");
+                    System.out.println("1 - add a product to the cart");
+                    System.out.println("2 - delete a product from the cart");
+                    System.out.println("3 - back");
+                    y = scanner.nextInt();
+                    scanner.nextLine();
+                    while(y != 1 && y != 2){
+                        System.out.println("please write 1 or 2");
+                        y = scanner.nextInt();
+                        scanner.nextLine();
+                }
+            }
+        }
+        }
+}}
 

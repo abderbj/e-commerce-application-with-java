@@ -56,6 +56,17 @@ public class Clothes extends Product {
         Clothes.clothes = clothes;
     }
 
+    public static int get_element_by_id(int productId) {
+        int i = 0;
+        for (Clothes p : clothes) {
+            if (p.getId() == productId) {
+                return i;
+            }
+            i++;
+        }
+        return -1;
+    }
+
     public String getSize() {
         return size;
     }
@@ -93,7 +104,6 @@ public class Clothes extends Product {
             e.printStackTrace();
             return;
         }
-
         if (lines.size() >= i) {
             lines.set(i, newContent);
         } else {

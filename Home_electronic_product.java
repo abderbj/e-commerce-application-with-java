@@ -57,6 +57,18 @@ public class Home_electronic_product extends Product{
             elctronic_product_list.add(p);
         }
     }
+
+    public static int get_element_by_id(int productId) {
+        int i = 0;
+        for (Home_electronic_product p : elctronic_product_list) {
+            if (p.getId() == productId) {
+                return i;
+            }
+            i++;
+        }
+        return -1;
+    }
+
     /*public Home_electronic_product(String product_id, String product_name, int product_stock, String product_brand, String product_color, int product_weight, int product_power, int product_voltage){
         super(product_id, product_name, product_stock, product_brand, product_color);
         weight = product_weight;
