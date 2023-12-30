@@ -10,7 +10,6 @@ public class Shopping_cart {
     private List<Home_electronic_product> home_electronic_product;
     private List<Clothes> clothes;
     private String owner;
-    private int total_price;
     private static List<Shopping_cart> shopping_cart_list;
     public static int get_element_by_id(int ID){
         for(Shopping_cart p : shopping_cart_list){
@@ -20,12 +19,15 @@ public class Shopping_cart {
         }
         return(-1);
     }
+    public Shopping_cart(){
+        home_electronic_product = new ArrayList<>();
+        clothes = new ArrayList<>();
+    }
     public static int create_shopping_cart(String owner){
         Shopping_cart s = new Shopping_cart();
         s.setClothes(new ArrayList<>());
         s.setHome_electronic_product(new ArrayList<>());
         s.setOwner(owner);
-        s.setTotal_price(0);
         if(!shopping_cart_list.isEmpty()){
             s.setId(shopping_cart_list.get(shopping_cart_list.size() - 1).getId() + 1);
         }else{
@@ -34,7 +36,7 @@ public class Shopping_cart {
         shopping_cart_list.add(s);
         String filePath = "Shopping carts.txt";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-            String new_prod = s.getId() + " " + s.getOwner() + " " + s.getTotal_price();
+            String new_prod = s.getId() + " " + s.getOwner();
             if (Files.size(Paths.get(filePath)) == 0) {
                 writer.write(new_prod);
             } else {
@@ -59,12 +61,11 @@ public class Shopping_cart {
         System.out.println("1- Home electronic product");
         System.out.println("2- Clothes");
         int choice = scanner.nextInt();
-
         while(choice != 1 && choice != 2){
             System.out.println("please enter a valid choice");
             choice = scanner.nextInt();
         }
-        Home_electronic_product p ;
+        Home_electronic_product p;
         Clothes c;
         if(choice == 1) {
             Home_electronic_product.afficher();
@@ -79,9 +80,6 @@ public class Shopping_cart {
             }
             p = Home_electronic_product.find_product_by_id(product_id);
             if (p.getStock_availibility() > 0) {
-                p.setStock_availibility(p.getStock_availibility() - 1);
-                shopping_cart_list.get(i).getHome_electronic_product().add(p);
-                shopping_cart_list.get(i).setTotal_price(shopping_cart_list.get(i).getTotal_price() + p.getPrice());
                 String filePath = "Shopping carts.txt";
                 List<String> lines = new ArrayList<>();
                 try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -122,7 +120,6 @@ public class Shopping_cart {
             if (c.getStock_availibility() > 0) {
                 c.setStock_availibility(c.getStock_availibility() - 1);
                 shopping_cart_list.get(i).getClothes().add(c);
-                shopping_cart_list.get(i).setTotal_price(shopping_cart_list.get(i).getTotal_price() + c.getPrice());
                 String filePath = "Shopping carts.txt";
                 List<String> lines = new ArrayList<>();
                 try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -149,6 +146,7 @@ public class Shopping_cart {
                 System.out.println("this product is out of stock");
             }
         }
+        Shopping_cart.initialise_shopping_cart();
     }
     public static void delete_product(int id_of_shopping_cart){
         while(Shopping_cart.get_element_by_id(id_of_shopping_cart) == -1){
@@ -179,8 +177,6 @@ public class Shopping_cart {
                 product_id = scanner.nextInt();
             }
             p = Home_electronic_product.find_product_by_id(product_id);
-            shopping_cart_list.get(i).getHome_electronic_product().add(p);
-            shopping_cart_list.get(i).setTotal_price(shopping_cart_list.get(i).getTotal_price() + p.getPrice());
             String filePath = "Shopping carts.txt";
             List<String> lines = new ArrayList<>();
             try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -215,6 +211,7 @@ public class Shopping_cart {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
         }
         else{
             Clothes.afficher();
@@ -228,7 +225,6 @@ public class Shopping_cart {
             c = Clothes.find_product_by_id(product_id);
             int j = shopping_cart_list.get(i).getClothes().indexOf(c);
             shopping_cart_list.get(i).getClothes().add(c);
-            shopping_cart_list.get(i).setTotal_price(shopping_cart_list.get(i).getTotal_price() + c.getPrice());
             String filePath = "Shopping carts.txt";
             List<String> lines = new ArrayList<>();
             try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -264,6 +260,16 @@ public class Shopping_cart {
                 e.printStackTrace();
             }
         }
+        Shopping_cart.initialise_shopping_cart();
+    }
+
+    public static Shopping_cart find_cart_by_id(int n) {
+        for(Shopping_cart p : shopping_cart_list){
+            if(p.getId() == n){
+                return p;
+            }
+        }
+        return null;
     }
 
     public int getId() {
@@ -297,14 +303,6 @@ public class Shopping_cart {
         this.owner = owner;
     }
 
-    public int getTotal_price() {
-        return total_price;
-    }
-
-    public void setTotal_price(int total_price) {
-        this.total_price = total_price;
-    }
-
     public static List<Shopping_cart> getShopping_cart_list() {
         return shopping_cart_list;
     }
@@ -331,7 +329,7 @@ public class Shopping_cart {
             p.setId(Integer.parseInt(informations[0]));
             p.setOwner(informations[1]);
             int k = 2;
-            while(k < informations.length){
+            while(k < informations.length - 1){
                 if(informations[k].equals("1")){
                     p.getHome_electronic_product().add(Home_electronic_product.find_product_by_id(Integer.parseInt(informations[k+1])));
                 }
@@ -353,9 +351,25 @@ public class Shopping_cart {
                 for(Clothes c : u.getClothes()){
                     System.out.println(c.getName());
                 }
-                System.out.println("total price : " + u.getTotal_price());
                 System.out.println("________________________________________________________________________________________");
             }
+        }
+    }
+    public static int getRecommendations(String user){
+        int nbr_of_clothes = 0;
+        int nbr_of_home_electronic_product = 0;
+        for(Shopping_cart l : shopping_cart_list){
+            if(Objects.equals(l.getOwner(), user)){
+                nbr_of_clothes += l.getClothes().size();
+                nbr_of_home_electronic_product += l.getHome_electronic_product().size();
+            }
+        }
+        System.out.println(nbr_of_clothes);
+        System.out.println(nbr_of_home_electronic_product);
+        if(nbr_of_home_electronic_product >= nbr_of_clothes){
+            return 1;
+        }else{
+            return 2;
         }
     }
 }

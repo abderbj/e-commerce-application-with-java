@@ -7,6 +7,15 @@ abstract public class Product {
     private int stock_availibility;
     private String brand_name;
     private String color;
+    private int rating;
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
 
     public int getPrice() {
         return price;

@@ -12,6 +12,7 @@ public class Main {
         Home_electronic_product.initialise_products();
         Clothes.initialise_clothes();
         Shopping_cart.initialise_shopping_cart();
+        Order.initialise();
         System.out.println("Hello! what do u want to do");
         System.out.println("1 - Log in");
         System.out.println("2 - Sign up");
@@ -39,13 +40,11 @@ public class Main {
         int l = 0;
         if(Objects.equals(u.getAccount_type(), "admin")){
             System.out.println("hello world");
-            while(l != 6){
+            while(l != 4){
                 System.out.println("1 - add a new product");
                 System.out.println("2 - update a product");
                 System.out.println("3 - delete a product");
-                System.out.println("4 - see a specefic product sales");
-                System.out.println("5 - see all products sales");
-                System.out.println("6 - log out");
+                System.out.println("4 - log out");
                 l = scanner.nextInt();
                 scanner.nextLine();
                 switch (l){
@@ -344,15 +343,21 @@ public class Main {
             }
         }
         if(Objects.equals(u.getAccount_type(), "costumer")) {
+            do{
             System.out.println("what do you want to do next");
             System.out.println("1 - create a new shopping card");
             System.out.println("2- search for a product");
             System.out.println("3- view recommendations ");
             System.out.println("4- view your shopping cards");
-            System.out.println("5- log out");
+            System.out.println("5- add a new order");
+            System.out.println("6- view your orders");
+            System.out.println("7- confirm an order");
+            System.out.println("8- create an order");
+            System.out.println("9 add a product rating");
+            System.out.println("10- log out");
             l = scanner.nextInt();
             scanner.nextLine();
-            switch (l){
+            switch (l) {
                 case 1:
                     int shopping_cart_id = Shopping_cart.create_shopping_cart(u.getId());
                     System.out.println("1 - add a product to the cart");
@@ -360,32 +365,120 @@ public class Main {
                     System.out.println("3 - back");
                     int y = scanner.nextInt();
                     scanner.nextLine();
-                    while(y != 1 && y != 2){
-                        System.out.println("please write 1 or 2");
+                    while (y != 3) {
+                        switch (y) {
+                            case 1:
+                                Shopping_cart.add_product(shopping_cart_id);
+                                break;
+                            case 2:
+                                Shopping_cart.delete_product(shopping_cart_id);
+                                break;
+                        }
+                        System.out.println("what do you want to do next");
+                        System.out.println("1 - add a product to the cart");
+                        System.out.println("2 - delete a product from the cart");
+                        System.out.println("3 - back");
                         y = scanner.nextInt();
                         scanner.nextLine();
-                    }while(y != 3){
-                    switch (y){
-                        case 1:
-                            Shopping_cart.add_product(shopping_cart_id);
-                            break;
-                        case 2:
-                            Shopping_cart.delete_product(shopping_cart_id);
-                            break;
+                        while (y != 1 && y != 2 && y != 3) {
+                            System.out.println("please write 1, 2 or 3");
+                            y = scanner.nextInt();
+                            scanner.nextLine();
+                        }
                     }
-                    System.out.println("what do you want to do next");
-                    System.out.println("1 - add a product to the cart");
-                    System.out.println("2 - delete a product from the cart");
-                    System.out.println("3 - back");
-                    y = scanner.nextInt();
+                    break;
+                case 2:
+                    System.out.println("write what you want to search for");
+                    String search = scanner.nextLine();
+                    Home_electronic_product.search(search);
+                    Clothes.search(search);
+                    break;
+                case 3:
+                    int result = Shopping_cart.getRecommendations(u.getId());
+                    if (result == 1) {
+                        Home_electronic_product.afficher();
+                    } else {
+                        Clothes.afficher();
+                    }
+                    break;
+                case 4:
+                    Shopping_cart.afficher(u.getId());
+                    break;
+                case 5:
+                    Order.add_order(u.getId());
+                    break;
+                case 6:
+                    Order.afficher(u.getId());
+                    break;
+                case 7:
+                    Order.afficher(u.getId());
+                    System.out.println("pick the id of the order you want to confirm");
+                    int new_id = scanner.nextInt();
                     scanner.nextLine();
-                    while(y != 1 && y != 2){
-                        System.out.println("please write 1 or 2");
-                        y = scanner.nextInt();
+                    while (Order.find_order_by_id(new_id) == null) {
+                        System.out.println("pick a valid id");
+                        new_id = scanner.nextInt();
                         scanner.nextLine();
-                }
+                    }
+                    Order.confirm_order(new_id);
+                    break;
+                case 8:
+                    Order.add_order(u.getId());
+                case 9:
+                    System.out.println("what is the product category");
+                    System.out.println("1 - house electronics");
+                    System.out.println("2 - clothes");
+                    int t = scanner.nextInt();
+                    scanner.nextLine();
+                    while(n != 1 && n != 2 && n != 3){
+                        t = scanner.nextInt();
+                        scanner.nextLine();
+                    }
+                    if(t == 1){
+                        Home_electronic_product.afficher();
+                        System.out.println("pick the id of the product you want to rate");
+                        new_id =scanner.nextInt();
+                        Home_electronic_product h = Home_electronic_product.find_product_by_id(new_id);
+                        while(h == null){
+                            System.out.println("pick a valid id");
+                            new_id =scanner.nextInt();
+                            h = Home_electronic_product.find_product_by_id(new_id);
+                        }
+                        System.out.println("write your rating");
+                        int rating = scanner.nextInt();
+                        scanner.nextLine();
+                        if(h.getRating() == 0){
+                            h.setRating(rating);
+                        }
+                        else{
+                            h.setRating((h.getRating()+rating) / 2);
+
+                        }
+                        h.update_product();
+                    }
+                    if(t == 2){
+                        Clothes.afficher();
+                        System.out.println("pick the id of the product you want to rate");
+                        new_id =scanner.nextInt();
+                        Clothes h = Clothes.find_product_by_id(new_id);
+                        while(h == null){
+                            System.out.println("pick a valid id");
+                            new_id =scanner.nextInt();
+                            h = Clothes.find_product_by_id(new_id);
+                        }
+                        System.out.println("write your rating");
+                        int rating = scanner.nextInt();
+                        scanner.nextLine();
+                        if(h.getRating() == 0){
+                            h.setRating(rating);
+                        }
+                        else{
+                            h.setRating((h.getRating()+rating) / 2);
+
+                        }
+                        h.update_product();
+                    }
             }
-        }
-        }
-}}
+        }while(l != 10);
+}}}
 

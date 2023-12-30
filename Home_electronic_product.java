@@ -54,10 +54,10 @@ public class Home_electronic_product extends Product{
             p.setVoltage(Integer.parseInt(informations[7]));
             p.setOwner_id(informations[8]);
             p.setPrice(Integer.parseInt(informations[9]));
+            p.setRating(Integer.parseInt(informations[10]));
             elctronic_product_list.add(p);
         }
     }
-
     public static int get_element_by_id(int productId) {
         int i = 0;
         for (Home_electronic_product p : elctronic_product_list) {
@@ -68,14 +68,6 @@ public class Home_electronic_product extends Product{
         }
         return -1;
     }
-
-    /*public Home_electronic_product(String product_id, String product_name, int product_stock, String product_brand, String product_color, int product_weight, int product_power, int product_voltage){
-        super(product_id, product_name, product_stock, product_brand, product_color);
-        weight = product_weight;
-        power = product_power;
-        voltage = product_voltage;
-        elctronic_product_list.add(this);
-    }*/
     @Override
     public void update_product() {
         int i = 0;
@@ -86,7 +78,7 @@ public class Home_electronic_product extends Product{
             i++;
         }
             String filePath = "Electronics.txt";
-            String newContent = this.getId() + " " + this.getName() + " " + this.getStock_availibility() + " " + this.getBrand_name() + " " + this.getColor() + " " + weight + " " + power + " " + voltage + " " + this.getOwner_id() + " " + this.getPrice();
+            String newContent = this.getId() + " " + this.getName() + " " + this.getStock_availibility() + " " + this.getBrand_name() + " " + this.getColor() + " " + weight + " " + power + " " + voltage + " " + this.getOwner_id() + " " + this.getPrice() + " " + this.getRating() ;
             List<String> lines = new ArrayList<>();
             try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
                 String line;
@@ -150,11 +142,12 @@ public class Home_electronic_product extends Product{
         int product_price = scanner.nextInt();
         p.setPrice(product_price);
         scanner.nextLine();
+        p.setRating(0);
         elctronic_product_list.add(p);
         String filePath = "Electronics.txt";
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-            String new_prod = p.getId() + " " + p.getName() + " " + String.valueOf(p.getStock_availibility()) + " " + p.getBrand_name() + " " + p.getColor() + " " + String.valueOf(p.getWeight()) + " " + String.valueOf(p.getPower()) + " " + String.valueOf(p.getVoltage()) + " " + p.getOwner_id() + " " + String.valueOf(p.getPrice());
+            String new_prod = p.getId() + " " + p.getName() + " " + String.valueOf(p.getStock_availibility()) + " " + p.getBrand_name() + " " + p.getColor() + " " + p.getWeight() + " " + p.getPower() + " " + p.getVoltage() + " " + p.getOwner_id() + " " + p.getPrice() + " " + p.getRating();
 
             if (Files.size(Paths.get(filePath)) == 0) {
                 writer.write(new_prod);
@@ -237,6 +230,7 @@ public class Home_electronic_product extends Product{
                 "weight=" + weight +
                 ", power=" + power +
                 ", voltage=" + voltage +
+                ", rating=" + this.getRating() +
                 '}';
     }
 
@@ -248,5 +242,15 @@ public class Home_electronic_product extends Product{
             System.out.println(l.toString());
             System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         }
+    }
+    public static void search(String s){
+        for(Home_electronic_product l : elctronic_product_list){
+            String substring1 = l.getName().substring(0, s.length());
+            if(substring1.equals(s)){
+                System.out.println(l.toString());
+                System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+            }
+        }
+
     }
 }

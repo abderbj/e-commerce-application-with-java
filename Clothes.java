@@ -44,6 +44,7 @@ public class Clothes extends Product {
             p.setSize(informations[6]);
             p.setPrice(Integer.parseInt(informations[7]));
             p.setOwner_id(informations[8]);
+            p.setRating(Integer.parseInt(informations[9]));
             clothes.add(p);
         }
     }
@@ -93,7 +94,7 @@ public class Clothes extends Product {
             i++;
         }
         String filePath = "Clothes.txt";
-        String newContent = this.getId() + " " + this.getName() + " " + this.getStock_availibility() + " " + this.getBrand_name() + " " + this.getColor() + " " + gender + " " + size + " " + this.getPrice() + " " + this.getOwner_id();
+        String newContent = this.getId() + " " + this.getName() + " " + this.getStock_availibility() + " " + this.getBrand_name() + " " + this.getColor() + " " + gender + " " + size + " " + this.getPrice() + " " + this.getOwner_id() + " " + this.getRating();
         List<String> lines = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -149,10 +150,11 @@ public class Clothes extends Product {
         System.out.println("enter the the product's price");
         int product_price = scanner.nextInt();
         p.setPrice(product_price);
+        p.setRating(0);
         clothes.add(p);
         String filePath = "Clothes.txt";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-            String new_prod = p.getId() + " " + p.getName() + " " + p.getStock_availibility() + " " + p.getBrand_name() + " " + p.getColor() + " " + p.getGender() + " " + p.getSize() + " " + p.getPrice() + " " + p.getOwner_id() ;
+            String new_prod = p.getId() + " " + p.getName() + " " + p.getStock_availibility() + " " + p.getBrand_name() + " " + p.getColor() + " " + p.getGender() + " " + p.getSize() + " " + p.getPrice() + " " + p.getOwner_id() + " " + p.getRating();
 
             if (Files.size(Paths.get(filePath)) == 0) {
                 writer.write(new_prod);
@@ -206,12 +208,22 @@ public class Clothes extends Product {
                 ", owner_id='" + this.getOwner_id() + '\'' +
                 " size=" + size +
                 ", gender=" + gender +
+                ", rating=" + this.getRating() +
                 '}';
     }
     public static void afficher(){
         for(Clothes l : clothes){
             System.out.println(l.toString());
             System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        }
+    }
+    public static void search(String s){
+        for(Clothes l : clothes){
+            String substring1 = l.getName().substring(0, s.length());
+            if(substring1.equals(s)){
+                System.out.println(l.toString());
+                System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+            }
         }
     }
 }
