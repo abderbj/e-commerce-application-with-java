@@ -13,7 +13,6 @@ public class Main {
         Clothes.initialise_clothes();
         Shopping_cart.initialise_shopping_cart();
         Order.initialise();
-        System.out.println("Hello! what do u want to do");
         System.out.println("1 - Log in");
         System.out.println("2 - Sign up");
         System.out.println("Hello! what do u want to do");
@@ -29,17 +28,15 @@ public class Main {
         switch (n){
             case 1:
                 u = Login.login();
-                System.out.println("What do you want to do next!");
+                System.out.println("Welcome to your account!");
                 break;
             case 2:
                 u = Login.sign_up();
                 System.out.println("Welcome to your account!");
-                System.out.println("What do you want to do next!");
                 break;
         }
         int l = 0;
         if(Objects.equals(u.getAccount_type(), "admin")){
-            System.out.println("hello world");
             while(l != 4){
                 System.out.println("1 - add a new product");
                 System.out.println("2 - update a product");
@@ -289,6 +286,7 @@ public class Main {
                             }
                             updated_one.update_product();
                         }
+                        break;
                     case 3:
                         System.out.println("what is the product category");
                         System.out.println("1 - house electronics");
@@ -339,6 +337,7 @@ public class Main {
                             System.out.println(new_id);
                             Clothes.delete_product(new_id);
                         }
+                        break;
                 }
             }
         }
@@ -411,6 +410,10 @@ public class Main {
                     Order.afficher(u.getId());
                     break;
                 case 7:
+                    if(Order.getOrder_list().size() == 0){
+                        System.out.println("you don't have any orders");
+                        break;
+                    }
                     Order.afficher(u.getId());
                     System.out.println("pick the id of the order you want to confirm");
                     int new_id = scanner.nextInt();
@@ -424,6 +427,7 @@ public class Main {
                     break;
                 case 8:
                     Order.add_order(u.getId());
+                    break;
                 case 9:
                     System.out.println("what is the product category");
                     System.out.println("1 - house electronics");
@@ -454,7 +458,7 @@ public class Main {
                             h.setRating((h.getRating()+rating) / 2);
 
                         }
-                        h.update_product();
+                         h.update_product();
                     }
                     if(t == 2){
                         Clothes.afficher();
@@ -478,6 +482,7 @@ public class Main {
                         }
                         h.update_product();
                     }
+                    break;
             }
         }while(l != 10);
 }}}

@@ -12,7 +12,7 @@ public class Order {
     private String owner;
     private static List<Order> order_list;
     private int total_price;
-
+    // This method is used to print the list of products
     public static void afficher(String id) {
         for(Order o : order_list){
             if(o.getOwner().equals(id)){
@@ -27,7 +27,7 @@ public class Order {
             }
         }
     }
-
+    // getters and setters
     public Shopping_cart getShopping_cart() {
         return shopping_cart;
     }
@@ -50,6 +50,19 @@ public class Order {
     public static void setOrder_list(List<Order> order_list) {
         Order.order_list = order_list;
     }
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    public void setPayment_method(boolean payment_method) {
+        this.payment_method = payment_method;
+    }
+    public boolean get_payment(){
+        return payment_method;
+    }
 
     public int getTotal_price() {
         return total_price;
@@ -58,7 +71,7 @@ public class Order {
     public void setTotal_price(int total_price) {
         this.total_price = total_price;
     }
-
+    // This method is used to create a new order
     static void add_order(String user){
         System.out.println("Choose a shopping cart by picking an id");
         Shopping_cart.afficher(user);
@@ -85,7 +98,7 @@ public class Order {
         order_list.add(o);
         String filePath = "Order.txt";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-            String new_prod = o.getId() + " " + o.getOwner() + " " + o.getShopping_cart().getId() + " " + o.get_payment();
+            String new_prod = o.getId() + " " + o.getOwner() + " " + o.getShopping_cart().getId() + " " + o.get_payment() + " " + o.getTotal_price();
             if (Files.size(Paths.get(filePath)) == 0) {
                 writer.write(new_prod);
             } else {
@@ -100,12 +113,7 @@ public class Order {
         return payment_method;
     }
 
-    public void setPayment_method(boolean payment_method) {
-        this.payment_method = payment_method;
-    }
-    public boolean get_payment(){
-        return payment_method;
-    }
+    // This method is used to confirm an order
     static void confirm_order(int new_id) {
         System.out.println("Choose a payment method by picking an id");
         System.out.println("1. Credit card");
@@ -122,7 +130,6 @@ public class Order {
         }
         if (n == 1) {
             CreditCardPayment.create();
-
         } else {
             PayPalPayment.create_paypal_cart();
         }
@@ -148,14 +155,7 @@ public class Order {
             e.printStackTrace();
         }
     }
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    // This method is used to find an order by its id
     static Order find_order_by_id(int newId) {
         for(Order o : order_list){
             if(o.getId() == newId){
@@ -164,6 +164,7 @@ public class Order {
         }
         return null;
     }
+    // This method is used to initialise the list of orders from the mock database (txt file)
     public static void initialise(){
         String filePath = "Order.txt";
         List<String> lines = new ArrayList<>();

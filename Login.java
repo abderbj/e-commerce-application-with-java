@@ -1,5 +1,6 @@
 import java.util.*;
 public class Login {
+    // check if the email or the username exists in the database
     public static boolean check_email(String x){
         for(User l : Users.getUsers()){
             if(Objects.equals(l.getEmail(), x)){
@@ -11,6 +12,7 @@ public class Login {
         }
         return false;
     }
+    // check if the password is correct
     public static User check_password(String email, String password){
         for(User l : Users.getUsers()){
             if(Objects.equals(l.getEmail(), email) && Objects.equals(l.getPassword(), password)){
@@ -23,7 +25,7 @@ public class Login {
         return null;
     }
 
-
+    // sign up method
     public static User sign_up(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("enter your name: ");
@@ -82,7 +84,7 @@ public class Login {
         return new_user;
     }
 
-
+    // login method
     public static User login(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("enter ur email adress or your username: ");
@@ -95,27 +97,13 @@ public class Login {
         System.out.println("enter your password: ");
         String password = scanner.nextLine();
         while(Login.check_password(inputString, password) == null){
-            System.out.println("invalid email or password");
-            System.out.println("do you want to change the email(1) or the password(2) write 1 for the email and 2 for the password ");
-            int x = scanner.nextInt();
-            scanner.nextLine();
-            while(x != 1 && x != 2){
-                System.out.println("please write 1 or 2");
-                x = scanner.nextInt();
-                scanner.nextLine();
-            }
-            if(x == 1){
-                System.out.println("enter the new email adress or your username: ");
-                inputString = scanner.nextLine();
-            }
-            if(x == 2){
-                System.out.println("enter the correct password: ");
-                password = scanner.nextLine();
-            }
+            System.out.println("invalid password ! enter the correct password");
+            password = scanner.nextLine();
         }
         System.out.println("You are now connected successfully!");
         return (Login.check_password(inputString, password));
     }
+    // get the account type of the last user
     public static String get_account_type(){
         return Users.getUsers().get(Users.getUsers().size() - 1).getAccount_type();
     }

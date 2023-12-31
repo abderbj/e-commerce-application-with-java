@@ -8,6 +8,7 @@ import java.util.Scanner;
 class PayPalPayment{
     private String email;
     private String password;
+    // getters and setters
     public String getEmail() {
         return email;
     }
@@ -24,7 +25,7 @@ class PayPalPayment{
         this.password = password;
     }
 
-
+    // create a new paypal payment
     public static void create_paypal_cart(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter your email");

@@ -9,12 +9,13 @@ public class CreditCardPayment {
     private String cardNumber;
     private String cvv;
     private String dateOfExpiry;
-
+    // this constructor
     public void Credit_card_payment(String cardNumber, String cvv, String dateOfExpiry) {
         this.cardNumber = cardNumber;
         this.cvv = cvv;
         this.dateOfExpiry = dateOfExpiry;
     }
+    // getters and setters
     public String getCardNumber() {
         return cardNumber;
     }
@@ -39,7 +40,7 @@ public class CreditCardPayment {
         this.dateOfExpiry = dateOfExpiry;
     }
 
-
+    // this method is used to create a new credit card payment
     public static void create(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter your number");

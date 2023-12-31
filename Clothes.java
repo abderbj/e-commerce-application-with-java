@@ -18,7 +18,7 @@ public class Clothes extends Product {
         }
         return(null);
     }
-    // afficher clothes
+    // This method is used to initialise the list of products from the file from the mock database (txt file)
     public static void initialise_clothes() {
         String filePath = "Clothes.txt";
         List<String> lines = new ArrayList<>();
@@ -48,14 +48,7 @@ public class Clothes extends Product {
             clothes.add(p);
         }
     }
-
-    public static List<Clothes> getClothes() {
-        return clothes;
-    }
-
-    public static void setClothes(List<Clothes> clothes) {
-        Clothes.clothes = clothes;
-    }
+    // this method is used to get the index of a product in the list of products
 
     public static int get_element_by_id(int productId) {
         int i = 0;
@@ -67,7 +60,14 @@ public class Clothes extends Product {
         }
         return -1;
     }
+    // getters and setters
+    public static List<Clothes> getClothes() {
+        return clothes;
+    }
 
+    public static void setClothes(List<Clothes> clothes) {
+        Clothes.clothes = clothes;
+    }
     public String getSize() {
         return size;
     }
@@ -84,6 +84,7 @@ public class Clothes extends Product {
         this.gender = gender;
     }
 
+    // this method is used to update the product in the mock database (txt file)
     @Override
     public void update_product() {
         int i = 0;
@@ -119,6 +120,7 @@ public class Clothes extends Product {
             e.printStackTrace();
         }
     }
+    // this method creates a new product and adds it to the mock database (txt file)
     public static void add_product(String s){
         Clothes p = new Clothes();
         if(clothes.size() > 0){
@@ -196,6 +198,7 @@ public class Clothes extends Product {
             e.printStackTrace();
         }
     }
+    // this method is used to display a product
     @Override
     public String toString() {
         return   "Product{" +
@@ -211,12 +214,14 @@ public class Clothes extends Product {
                 ", rating=" + this.getRating() +
                 '}';
     }
+    // this method is used to display the list of products
     public static void afficher(){
         for(Clothes l : clothes){
             System.out.println(l.toString());
             System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         }
     }
+    // this method is used to search for a product by name
     public static void search(String s){
         for(Clothes l : clothes){
             String substring1 = l.getName().substring(0, s.length());

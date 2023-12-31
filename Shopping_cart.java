@@ -11,6 +11,7 @@ public class Shopping_cart {
     private List<Clothes> clothes;
     private String owner;
     private static List<Shopping_cart> shopping_cart_list;
+    // This method is used to get the index of a shopping cart in the list of shopping carts
     public static int get_element_by_id(int ID){
         for(Shopping_cart p : shopping_cart_list){
             if(p.getId() == ID){
@@ -23,6 +24,7 @@ public class Shopping_cart {
         home_electronic_product = new ArrayList<>();
         clothes = new ArrayList<>();
     }
+    // This method is used to create a shopping cart
     public static int create_shopping_cart(String owner){
         Shopping_cart s = new Shopping_cart();
         s.setClothes(new ArrayList<>());
@@ -48,6 +50,7 @@ public class Shopping_cart {
         }
         return s.getId();
     }
+    // This method is used to add a product to a shopping cart
     public static void add_product(int id_of_shopping_cart){
         Scanner scanner = new Scanner(System.in);
         while(Shopping_cart.get_element_by_id(id_of_shopping_cart) == -1){
@@ -103,9 +106,9 @@ public class Shopping_cart {
                     e.printStackTrace();
                 }
             }
-            } else {
+            else {
                 System.out.println("this product is out of stock");
-            }
+            }}
         if(choice == 2){
             Clothes.afficher();
             System.out.println("please enter the product id");
@@ -148,6 +151,7 @@ public class Shopping_cart {
         }
         Shopping_cart.initialise_shopping_cart();
     }
+    // This method is used to delete a product from a shopping cart
     public static void delete_product(int id_of_shopping_cart){
         while(Shopping_cart.get_element_by_id(id_of_shopping_cart) == -1){
             System.out.println("this id doesn't exist");
@@ -190,9 +194,6 @@ public class Shopping_cart {
             }
 
             List<String> informations = new ArrayList<>(List.of(lines.get(i).split(" ")));
-            for(String mm : informations){
-                System.out.println(mm);
-            }
             for(int ch = 0; ch < informations.size() - 1; ch++){
                 if(informations.get(ch).equals("1") && informations.get(ch+1).equals(String.valueOf(product_id))){
                     informations.remove(ch);
@@ -238,9 +239,6 @@ public class Shopping_cart {
             }
 
             List<String> informations = new ArrayList<>(List.of(lines.get(i).split(" ")));
-            for(String mm : informations){
-                System.out.println(mm);
-            }
             for(int ch = 0; ch < informations.size() - 1; ch++){
                 if(informations.get(ch).equals("2") && informations.get(ch+1).equals(String.valueOf(product_id))){
                     informations.remove(ch);
@@ -262,7 +260,7 @@ public class Shopping_cart {
         }
         Shopping_cart.initialise_shopping_cart();
     }
-
+    // This method is used to find a shopping cart by its id
     public static Shopping_cart find_cart_by_id(int n) {
         for(Shopping_cart p : shopping_cart_list){
             if(p.getId() == n){
@@ -271,7 +269,7 @@ public class Shopping_cart {
         }
         return null;
     }
-
+    // getters and setters
     public int getId() {
         return id;
     }
@@ -310,6 +308,9 @@ public class Shopping_cart {
     public static void setShopping_cart_list(List<Shopping_cart> shopping_cart_list) {
         Shopping_cart.shopping_cart_list = shopping_cart_list;
     }
+
+
+    // This method is used to initialise the list of shopping carts from the mock database that I used (Shopping carts.txt)
     public static void initialise_shopping_cart(){
         String filePath = "Shopping carts.txt";
         List<String> lines = new ArrayList<>();
@@ -341,6 +342,8 @@ public class Shopping_cart {
             shopping_cart_list.add(p);
         }
     }
+
+    // This method is used to display the content of a shopping cart
     public static void afficher(String user_id){
         for(Shopping_cart u : shopping_cart_list){
             if(Objects.equals(u.getOwner(), user_id)){
@@ -355,6 +358,8 @@ public class Shopping_cart {
             }
         }
     }
+
+    // This method is used to know what product category is the most bought by a user
     public static int getRecommendations(String user){
         int nbr_of_clothes = 0;
         int nbr_of_home_electronic_product = 0;
@@ -364,8 +369,6 @@ public class Shopping_cart {
                 nbr_of_home_electronic_product += l.getHome_electronic_product().size();
             }
         }
-        System.out.println(nbr_of_clothes);
-        System.out.println(nbr_of_home_electronic_product);
         if(nbr_of_home_electronic_product >= nbr_of_clothes){
             return 1;
         }else{

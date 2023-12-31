@@ -18,7 +18,7 @@ public class Products {
             while ((line = reader.readLine()) != null) {
                 lines.add(line);
             }
-        } catch (IOException e) {
+        } catch (IOException e){
             e.printStackTrace();
         }
         products = new ArrayList<>();

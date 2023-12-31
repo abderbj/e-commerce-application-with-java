@@ -19,7 +19,7 @@ public class Home_electronic_product extends Product{
     /*public Home_electronic_product(String product_id, String product_name, int product_stock, String product_brand, String product_color) {
         super(product_id, product_name, product_stock, product_brand, product_color);
     }*/
-
+    // this method is used to find a product by its id
     public static Home_electronic_product find_product_by_id(int ID){
         for(Home_electronic_product l : elctronic_product_list){
             if(l.getId() == ID){
@@ -28,6 +28,7 @@ public class Home_electronic_product extends Product{
         }
         return(null);
     }
+    // This method is used to initialise the list of products from the file from the mock database (txt file)
     public static void initialise_products(){
         String filePath = "Electronics.txt";
         List<String> lines = new ArrayList<>();
@@ -68,6 +69,7 @@ public class Home_electronic_product extends Product{
         }
         return -1;
     }
+    // this method updates a product in the mock database (txt file)
     @Override
     public void update_product() {
         int i = 0;
@@ -104,6 +106,7 @@ public class Home_electronic_product extends Product{
                 e.printStackTrace();
             }
         }
+        // this method adds a product to the mock database (txt file)
     public static void add_product(String s){
         Home_electronic_product p = new Home_electronic_product();
         if(elctronic_product_list.size() > 0){
@@ -147,7 +150,7 @@ public class Home_electronic_product extends Product{
         String filePath = "Electronics.txt";
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-            String new_prod = p.getId() + " " + p.getName() + " " + String.valueOf(p.getStock_availibility()) + " " + p.getBrand_name() + " " + p.getColor() + " " + p.getWeight() + " " + p.getPower() + " " + p.getVoltage() + " " + p.getOwner_id() + " " + p.getPrice() + " " + p.getRating();
+            String new_prod = p.getId() + " " + p.getName() + " " + p.getStock_availibility() + " " + p.getBrand_name() + " " + p.getColor() + " " + p.getWeight() + " " + p.getPower() + " " + p.getVoltage() + " " + p.getOwner_id() + " " + p.getPrice() + " " + p.getRating();
 
             if (Files.size(Paths.get(filePath)) == 0) {
                 writer.write(new_prod);
@@ -159,6 +162,7 @@ public class Home_electronic_product extends Product{
             e.printStackTrace();
         }
     }
+    // this method deletes a product from the mock database (txt file)
     public static void delete_product(int id){
         int i = 0;
         for(Home_electronic_product l : elctronic_product_list){
@@ -189,6 +193,7 @@ public class Home_electronic_product extends Product{
             e.printStackTrace();
         }
     }
+    // getters and setters
     public static void setElctronic_product_list(List<Home_electronic_product> elctronic_product_list) {
         Home_electronic_product.elctronic_product_list = elctronic_product_list;
     }
@@ -216,7 +221,7 @@ public class Home_electronic_product extends Product{
     public int getVoltage() {
         return voltage;
     }
-
+    // this method is used to display a product
     @Override
     public String toString() {
         return   "Product{" +
@@ -233,7 +238,7 @@ public class Home_electronic_product extends Product{
                 ", rating=" + this.getRating() +
                 '}';
     }
-
+    // this method is used to display the list of products
     public static List<Home_electronic_product> getElctronic_product_list() {
         return elctronic_product_list;
     }
@@ -243,6 +248,7 @@ public class Home_electronic_product extends Product{
             System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         }
     }
+    // this method is used to search for a product
     public static void search(String s){
         for(Home_electronic_product l : elctronic_product_list){
             String substring1 = l.getName().substring(0, s.length());
